@@ -2,8 +2,9 @@
 
 ## Setup
 
-Put your favicon to `src/favicon-32x32.png` and your page background to `src/background.jpg`
-Perform the championship time update.
+1. Put your favicon to `src/favicon-32x32.png` and your page background to `src/background.jpg`
+1. Perform the championship time update.
+1. Make sure that your web host consumes PHP files using PHP 8 or newer
 
 ## Updating Championship Times
 
