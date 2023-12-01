@@ -1,0 +1,6 @@
+# Ignore copyrighted resources, get them at https://www.starstable.com/article/8934
+src/background.jpg
+src/favicon-32x32.png
+
+# Ignore the processed data to make sure there aren't multiple sources of truth
+data/championships.json
