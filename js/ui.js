@@ -13,7 +13,7 @@ export default class UI {
     this.savedParanoiaOffset = localStorage.getItem('paranoiaOffset') || 1
     this.#setParanoiaOffset(this.savedParanoiaOffset)
     this.#loadChampionships()
-    this.start() // auto-start, might need some more thought
+    this.start()
   }
 
   static init() {
