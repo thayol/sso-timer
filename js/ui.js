@@ -9,7 +9,7 @@ export default class UI {
 
   constructor(rootObject) {
     this.rootObject = rootObject
-    this.savedParanoiaOffset = localStorage.getItem('paranoiaOffset') || 2
+    this.savedParanoiaOffset = localStorage.getItem('paranoiaOffset') || 1
     this.setParanoiaOffset(this.savedParanoiaOffset)
     this.loadChampionships()
     this.start() // auto-start, might need some more thought
