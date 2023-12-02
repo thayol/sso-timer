@@ -20,7 +20,7 @@ export default class Championship {
     if (time == null) {
       remainingOffset += 1440
       day = Day.tomorrow
-      time = Championship.firstTimeNextDay
+      time = Championship.firstTimeTomorrow
     }
 
     return new Championship({

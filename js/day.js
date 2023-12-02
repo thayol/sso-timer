@@ -12,7 +12,7 @@ export default class Day {
 
   static get tomorrow() {
     let day = Day.today + 1
-    if (day > 6) day -= 6
+    if (day > 6) day -= 7
 
     return day
   }
