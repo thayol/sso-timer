@@ -9,12 +9,27 @@ export default class UI {
 
   constructor(rootObject) {
     this.rootObject = rootObject
+    this.savedParanoiaOffset = localStorage.getItem('paranoiaOffset') || 2
+    this.setParanoiaOffset(this.savedParanoiaOffset)
     this.loadChampionships()
     this.start() // auto-start, might need some more thought
   }
 
   static init() {
     UI.instance = new UI(window.document)
+  }
+
+  get paranoiaOffset() {
+    let currentParanoiaOffset = this.rootObject.getElementById('paranoia').value
+    if (this.savedParanoiaOffset != currentParanoiaOffset) {
+      localStorage.setItem('paranoiaOffset', currentParanoiaOffset)
+    }
+
+    return currentParanoiaOffset
+  }
+
+  setParanoiaOffset(value) {
+    this.rootObject.getElementById('paranoia').value = value
   }
 
   loadResponseIntoData(response) {
@@ -54,8 +69,13 @@ export default class UI {
   }
 
   updateTimer(next) {
-    let remaining = Transform.time(next.remaining) + ":" + Day.secondsUntilFullMinute
-    this.rootObject.getElementById('timer').innerHTML = remaining
+    let remaining = next.remaining - this.paranoiaOffset
+    let formattedRemaining = '00:00:00'
+    if (remaining >= 0) {
+      formattedRemaining = Transform.time(remaining) + ":" + Day.secondsUntilFullMinute
+    }
+
+    this.rootObject.getElementById('timer').innerHTML = formattedRemaining
     this.rootObject.title = `${remaining} - ${next.location} - SSO Timer`
   }
 

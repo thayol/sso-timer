@@ -18,4 +18,12 @@ export default class Transform {
   static time(time) {
     return Math.floor(time/60).toString().padStart(2, '0') + ":" + (time % 60).toString().padStart(2, '0')
   }
+
+  static stopAtZero(number) {
+    if (number > 0) {
+      return number
+    }
+
+    return 0
+  }
 }
