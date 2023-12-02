@@ -8,7 +8,7 @@ export default class UI {
   static updateFrequency = 500 // in ms
 
   constructor(rootObject) {
-    this.next = null
+    this.next = new Championship()
     this.rootObject = rootObject
     this.savedParanoiaOffset = localStorage.getItem('paranoiaOffset') || 1
     this.#setParanoiaOffset(this.savedParanoiaOffset)
@@ -42,7 +42,7 @@ export default class UI {
 
     Day.update()
 
-    this.next = Championship.next // TODO: make "next" a standard format
+    this.next = Championship.next
 
     if (Championship.nextChanged) {
       this.#updateChampionshipDetails()

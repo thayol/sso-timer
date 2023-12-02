@@ -5,7 +5,13 @@ import Transform from './transform.js'
 export default class Championship {
   static last = null
 
-   // TODO: make "next" a standard format
+  constructor(details) {
+    this.day = details?.day
+    this.time = details?.time
+    this.location = details?.location
+    this.remaining = details?.remaining
+  }
+
   static get next() {
     let remainingOffset = 0
     let day = Day.today
@@ -17,12 +23,12 @@ export default class Championship {
       time = Championship.firstTimeNextDay
     }
 
-    return {
+    return new Championship({
       day: day,
       time: time,
       location: Data.championships[day][time],
       remaining: (remainingOffset + time) - Day.minutesPassedSinceMidnight,
-    }
+    })
   }
 
   static get nextChanged() {
