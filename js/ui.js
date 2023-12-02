@@ -40,8 +40,7 @@ export default class UI {
 
     let next = Championship.next
 
-    if (Championship.last != next) {
-      Championship.last = next
+    if (Championship.nextChanged) {
       this.updateChampionshipDetails(next)
       this.updateChampionshipTable(next)
     }

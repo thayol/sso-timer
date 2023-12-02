@@ -24,6 +24,13 @@ export default class Championship {
     }
   }
 
+  static get nextChanged() {
+    if (Championship.last?.day != Championship.next?.day || Championship.last?.time != Championship.next?.time) {
+      Championship.last = Championship.next
+      return true
+    }
+  }
+
   static firstTimeOnDay(day) {
     return Math.min(...Object.keys(Data.championships[day]))
   }
