@@ -1,9 +1,18 @@
 :root {
-  --border: black;
+  --text: black;
+  --background: white;
+  --border: white;
+  --border-size: 0px;
+  --border-pattern: solid;
+  --border-radius: 10px;
+  --box-shadow-offset: 0 0;
+  --box-shadow-spread: 10px;
+  --box-shadow: white;
   --sso-pink: #e53bb9;
   --modal-background: rgba(255, 255, 255, 0.7);
   --highlighted-modal-background: rgba(255, 210, 242, 0.7);
   --highlighted-row: rgba(229, 59, 185, 0.55);
+  --more: var(--highlighted-modal-background);
 }
 
 * {
@@ -12,13 +21,30 @@
 
 html {
   margin: 0;
-  font-family: sans-serif;
-  background-color: white;
+  font-family: 'Quicksand', sans-serif;
+  background-color: var(--background);
+  color: var(--text);
 }
 
 body {
   margin: 0;
   padding: 20px;
+}
+
+.more summary {
+  padding: 7px 5px;
+  cursor: pointer;
+}
+
+.more .more-content {
+  padding: 2px 5px 7px;
+}
+
+.more {
+  margin: 0;
+  background-color: var(--more);
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  box-shadow: var(--box-shadow-offset) var(--box-shadow-spread) var(--more);
 }
 
 .background-image {
@@ -31,19 +57,28 @@ body {
   background-size: cover;
 }
 
-.timer-container {
+.timer-panel-container {
   min-height: 600px;
   padding-top: 50px;
+}
+
+.timer-container, .day-container {
+  background-color: var(--modal-background);
+  border: var(--border-size) var(--border-pattern) var(--border);
+  box-shadow: var(--box-shadow-offset) var(--box-shadow-spread) var(--box-shadow);
+  border-radius: var(--border-radius);
+}
+
+.timer-container {
+  padding: 5px;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 .timer-panel {
   text-align: center;
   max-width: 40em;
   margin: 5px auto;
-  background-color: var(--modal-background);
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  padding: 5px;
+  padding: 0;
 }
 
 .location-container {
@@ -55,6 +90,21 @@ body {
   margin-top: 0;
 }
 
+.paranoia-disclaimer {
+  font-style: italic;
+}
+
+.paranoia-disclaimer input#paranoia {
+  font-family: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px var(--border-pattern) var(--text);
+  padding: 1px 4px;
+  text-align: center;
+  width: 2em;
+}
+
 .days {
   display: flex;
   flex-flow: row wrap;
@@ -63,9 +113,6 @@ body {
 
 .day-container {
   flex: 1 1 auto;
-  background-color: var(--modal-background);
-  border: 1px solid var(--border);
-  border-radius: 5px;
   padding: 5px;
 }
 
@@ -84,9 +131,15 @@ body {
 .time-container {
   list-style-type: none;
   padding: 3px 5px;
-  border-radius: 5px;
+  border-radius: var(--border-radius);
 }
 
 .next-time {
   background-color: var(--highlighted-row);
+}
+
+@media screen and (max-width: 600px) {
+  .no-mobile {
+    display: none;
+  }
 }

@@ -7,19 +7,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <link rel="icon" type="image/png" sizes="32x32" href="src/favicon-32x32.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div class="background-image"></div>
 
-    <div class="timer-container">
+    <div class="timer-panel-container">
       <div class="timer-panel">
-        <h3 class="location-container">The <span id="location">...</span> Championship</h3>
-        <p class="championship">at <span id="time">00:00</span></p>
-        <p class="remaining">Remaining: <span id="timer">00:00:00</span></p>
+        <div class="timer-container">
+          <h3 class="location-container"><span class="no-mobile">The </span><span id="location">...</span><span class="no-mobile"> Championship</span></h3>
+          <p class="championship">at <span id="time">00:00</span></p>
+          <p class="remaining">Remaining: <span id="timer">00:00:00</span></p>
+        </div>
 
-        <details>
+        <details class="more">
           <summary>More</summary>
-          <p class="paranoia-disclaimer">Make my timers shorter by <input id="paranoia" type="number" step="1" value="2"></input></p>
+          <div class="more-content">
+            <p class="paranoia-disclaimer">Make my timers shorter by <input id="paranoia" type="number" step="1" value="2"></input> minute<span id="minutes_plural">s</span>.</p>
+          </div>
         </details>
       </div>
     </div>

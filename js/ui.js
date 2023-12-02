@@ -23,7 +23,9 @@ export default class UI {
   get paranoiaOffset() {
     let currentParanoiaOffset = this.rootObject.getElementById('paranoia').value
     if (this.savedParanoiaOffset != currentParanoiaOffset) {
+      this.savedParanoiaOffset = currentParanoiaOffset
       localStorage.setItem('paranoiaOffset', currentParanoiaOffset)
+      this.#updateParanoiaPlural()
     }
 
     return currentParanoiaOffset
@@ -54,6 +56,7 @@ export default class UI {
 
   #setParanoiaOffset(value) {
     this.rootObject.getElementById('paranoia').value = value
+    this.#updateParanoiaPlural()
   }
 
   #loadResponseIntoData(response) {
@@ -62,6 +65,10 @@ export default class UI {
 
   #loadChampionships() {
     fetch(Data.championshipsURL).then(this.#loadResponseIntoData)
+  }
+
+  #updateParanoiaPlural() {
+    this.rootObject.getElementById('minutes_plural').innerHTML = this.paranoiaOffset == 1 ? '' : 's'
   }
 
   #updateChampionshipDetails() {
@@ -90,11 +97,12 @@ export default class UI {
 
   #buildChampionshipDay(dayDetails) {
     const [day, details] = dayDetails
-    let dayContainer = `<h1 class="day-title">${Day.names[day]}</h1>`
-    dayContainer += this.#buildChampionshipTimes(day, details)
+
+    let dayContainer = this.#buildChampionshipTimes(day, details)
+    dayContainer = `<h1 class="day-title">${Day.names[day]}</h1><ul class="times">${dayContainer}</ul>`
     
     let dayContainerClasses = 'day-container' + ((Day.today == day) ? ' today' : '')
-    return `<div class="${dayContainerClasses}"><ul class="times">${dayContainer}</ul></div>`
+    return `<div class="${dayContainerClasses}">${dayContainer}</div>`
   }
 
   #buildChampionshipTimes(day, details) {
