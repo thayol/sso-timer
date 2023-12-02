@@ -1,7 +1,10 @@
 <html lang="en-US">
   <head>
-    <meta charset="utf-8">
     <title>SSO Timer</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Thayol" >
+    <meta name="description" content="A Championship timer for Star Stable Online" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" sizes="32x32" href="src/favicon-32x32.png">
   </head>
