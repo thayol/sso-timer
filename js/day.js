@@ -1,5 +1,6 @@
 export default class Day {
   static date = new Date() // maybe easier to offset time zone later
+  static names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
   static update() {
     Day.date = new Date()

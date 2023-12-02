@@ -8,10 +8,11 @@ export default class UI {
   static updateFrequency = 500 // in ms
 
   constructor(rootObject) {
+    this.next = null
     this.rootObject = rootObject
     this.savedParanoiaOffset = localStorage.getItem('paranoiaOffset') || 1
-    this.setParanoiaOffset(this.savedParanoiaOffset)
-    this.loadChampionships()
+    this.#setParanoiaOffset(this.savedParanoiaOffset)
+    this.#loadChampionships()
     this.start() // auto-start, might need some more thought
   }
 
@@ -28,18 +29,6 @@ export default class UI {
     return currentParanoiaOffset
   }
 
-  setParanoiaOffset(value) {
-    this.rootObject.getElementById('paranoia').value = value
-  }
-
-  loadResponseIntoData(response) {
-    response.json().then(Data.init)
-  }
-
-  loadChampionships() {
-    fetch(Data.championshipsURL).then(this.loadResponseIntoData)
-  }
-
   start() {
     this.intervalId = setInterval(() => { UI.instance.update() }, UI.updateFrequency)
   }
@@ -53,57 +42,69 @@ export default class UI {
 
     Day.update()
 
-    let next = Championship.next
+    this.next = Championship.next // TODO: make "next" a standard format
 
     if (Championship.nextChanged) {
-      this.updateChampionshipDetails(next)
-      this.updateChampionshipTable(next)
+      this.#updateChampionshipDetails()
+      this.#updateChampionshipTable()
     }
 
-    this.updateTimer(next)
+    this.#updateTimer()
   }
 
-  updateChampionshipDetails(next) {
-    this.rootObject.getElementById('time').innerHTML = Transform.time(next.time)
-    this.rootObject.getElementById('location').innerHTML = next.location
+  #setParanoiaOffset(value) {
+    this.rootObject.getElementById('paranoia').value = value
   }
 
-  updateTimer(next) {
-    let remaining = next.remaining - this.paranoiaOffset
+  #loadResponseIntoData(response) {
+    response.json().then(Data.init)
+  }
+
+  #loadChampionships() {
+    fetch(Data.championshipsURL).then(this.#loadResponseIntoData)
+  }
+
+  #updateChampionshipDetails() {
+    this.rootObject.getElementById('time').innerHTML = Transform.time(this.next?.time)
+    this.rootObject.getElementById('location').innerHTML = this.next?.location
+  }
+
+  #updateTimer() {
+    let remaining = this.next?.remaining - this.paranoiaOffset
     let formattedRemaining = '00:00:00'
     if (remaining >= 0) {
       formattedRemaining = Transform.time(remaining) + ":" + Day.secondsUntilFullMinute
     }
 
     this.rootObject.getElementById('timer').innerHTML = formattedRemaining
-    this.rootObject.title = `${formattedRemaining} - ${next.location} - SSO Timer`
+    this.rootObject.title = `${formattedRemaining} - ${this.next?.location} - SSO Timer`
   }
 
-  // TODO: refactor to builder
-  updateChampionshipTable(next) {
-    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-    let table = ``
-    for (const [day, details] of Object.entries(Data.championships)) {
-      let dayContainer = `<h1 class="day-title">${weekdays[day]}</h1>`
-      let dayContainerClasses = 'day-container'
+  #updateChampionshipTable() {
+    document.getElementById('championships_table').innerHTML = this.#buildChampionshipTable()
+  }
 
-      if (Day.today == day) {
-        dayContainerClasses += ' today'
-      }
+  #buildChampionshipTable() {
+    return Object.entries(Data.championships).map((dayDetails) => this.#buildChampionshipDay(dayDetails)).join('')
+  }
 
-      for (const [time, location] of Object.entries(details)) {
-        let formattedTime = Transform.time(time)
-        let classes = 'time-container'
-        if (next.day == day && next.time == time) {
-          classes += ' next-time'
-        }
+  #buildChampionshipDay(dayDetails) {
+    const [day, details] = dayDetails
+    let dayContainer = `<h1 class="day-title">${Day.names[day]}</h1>`
+    dayContainer += this.#buildChampionshipTimes(day, details)
+    
+    let dayContainerClasses = 'day-container' + ((Day.today == day) ? ' today' : '')
+    return `<div class="${dayContainerClasses}"><ul class="times">${dayContainer}</ul></div>`
+  }
 
-        dayContainer += `<li class="${classes}"><b class="time">${formattedTime}</b>: ${location}</li>`
-      }
+  #buildChampionshipTimes(day, details) {
+    return Object.entries(details).map((entry) => this.#buildChampionshipTime(day, entry)).join('')
+  }
 
-      table += `<div class="${dayContainerClasses}"><ul class="times">${dayContainer}</ul></div>`
-    }
+  #buildChampionshipTime(day, entry) {
+    const [time, location] = entry
 
-    document.getElementById('championships_table').innerHTML = table
+    let classes = 'time-container' + ((this.next?.day == day && this.next?.time == time) ? ' next-time' : '')
+    return `<li class="${classes}"><b class="time">${Transform.time(time)}</b>: ${location}</li>`
   }
 }

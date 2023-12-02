@@ -5,6 +5,7 @@ import Transform from './transform.js'
 export default class Championship {
   static last = null
 
+   // TODO: make "next" a standard format
   static get next() {
     let remainingOffset = 0
     let day = Day.today
