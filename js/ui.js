@@ -76,7 +76,7 @@ export default class UI {
     }
 
     this.rootObject.getElementById('timer').innerHTML = formattedRemaining
-    this.rootObject.title = `${remaining} - ${next.location} - SSO Timer`
+    this.rootObject.title = `${formattedRemaining} - ${next.location} - SSO Timer`
   }
 
   // TODO: refactor to builder
